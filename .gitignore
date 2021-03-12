@@ -1,0 +1,13 @@
+.DS_Store
+.ipynb_checkpoints
+.vscode
+.env
+__pycache__/
+*.pyc
+~$*
+__bak__*
+
+*.csv
+*.xlsx
+
+config.py

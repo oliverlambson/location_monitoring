@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "location_monitoring"
+version = "0.1.0"
+description = "Compares ItemIT item locations to expected location"
+authors = ["Oliver Lambson <oliverlambson@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.25.1"
+pandas = "^1.2.3"
+
+[tool.poetry.dev-dependencies]
+jupyterlab = "^3.0.10"
+jupyterlab-code-formatter = "^1.4.4"
+black = "^20.8b1"
+isort = "^5.7.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
