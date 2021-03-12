@@ -8,6 +8,7 @@ authors = ["Oliver Lambson <oliverlambson@gmail.com>"]
 python = "^3.9"
 requests = "^2.25.1"
 pandas = "^1.2.3"
+openpyxl = "^3.0.7"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.0.10"
