@@ -105,7 +105,6 @@ loc_map = {
 }
 
 
-@lru_cache(maxsize=1)
 def fetch_location_list():
     url = "https://server.itemit.com/collections/itemit/v2.0/locations/hierarchy"
     payload = {}
@@ -120,14 +119,12 @@ def fetch_location_list():
     return location_list
 
 
-@lru_cache(maxsize=1)
 def fetch_group_schedule():
     return pd.read_excel(
         "UMS_Courier_Schedules.xlsx", sheet_name="Group_Schedule", index_col="Group"
     )
 
 
-@lru_cache(maxsize=1)
 def fetch_box_groups():
     df_boxA = pd.read_excel("UMS_Courier_Schedules.xlsx", sheet_name="Box_Group_Lookup")
     df_boxB = df_boxA.copy()
@@ -149,17 +146,14 @@ def fetch_box_groups():
     return df_box
 
 
-@lru_cache(maxsize=1)
 def fetch_boxes_list():
     return fetch_box_groups().index.to_list()
 
 
-@lru_cache(maxsize=1)
 def fetch_days_list():
     return fetch_group_schedule().columns.to_list()
 
 
-@lru_cache(maxsize=1)
 def get_expected_location(day: str) -> pd.DataFrame:
     """
     Gets expected location of boxes at the end of day
@@ -188,7 +182,6 @@ def get_expected_location(day: str) -> pd.DataFrame:
     return df_out
 
 
-@lru_cache(maxsize=1)
 def fetch_num_boxes():
     url = "https://server.itemit.com/items/itemit/v4/count"
 
@@ -284,9 +277,11 @@ def fetch_box_data():
     return df
 
 
-@lru_cache(maxsize=1)
-def get_location_comparison(day: str):
+def get_location_comparison(day: str, clear_cache=False):
     boxes = fetch_boxes_list()
+
+    if clear_cache:
+        fetch_box_data.cache_clear()
     df = fetch_box_data()
 
     df_exp = get_expected_location(day)
@@ -317,7 +312,6 @@ def get_location_comparison(day: str):
     return df_locations
 
 
-@lru_cache(maxsize=1)
-def get_misplaced_boxes(day: str):
-    df = get_location_comparison(day)
+def fetch_misplaced_boxes(day: str, clear_cache=False):
+    df = get_location_comparison(day, clear_cache=clear_cache)
     return df[~df["location_is_correct"]].drop(columns="location_is_correct")
