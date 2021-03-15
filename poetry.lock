@@ -432,7 +432,7 @@ test = ["pytest (>=6.0)", "pytest-cov", "pytest-console-scripts", "pytest-check-
 
 [[package]]
 name = "jupyterlab-code-formatter"
-version = "1.4.4"
+version = "1.4.5"
 description = "Code formatter for JupyterLab"
 category = "dev"
 optional = false
@@ -1163,8 +1163,8 @@ jupyterlab = [
     {file = "jupyterlab-3.0.10.tar.gz", hash = "sha256:fdc6020d81e8888755ac4b30a08a89520c210d2eda400cfea0c0972d2591cfec"},
 ]
 jupyterlab-code-formatter = [
-    {file = "jupyterlab_code_formatter-1.4.4-py3-none-any.whl", hash = "sha256:57dd3d9dd669e21a35032e81207451ae7f7648353a47db6be75bfccebc3c0502"},
-    {file = "jupyterlab_code_formatter-1.4.4.tar.gz", hash = "sha256:f97081098953c4ead2a45af94ab6d42146ccf951a4b8cec6cd26f25a7238b8e5"},
+    {file = "jupyterlab_code_formatter-1.4.5-py3-none-any.whl", hash = "sha256:d43556de4854d5887b640c2dbb9951b1ef401f676240b03daef83b1a1bdaed92"},
+    {file = "jupyterlab_code_formatter-1.4.5.tar.gz", hash = "sha256:156b0328e4a8a2630a1fefd2baf6e8c898cbbfc32524c9151039ccf461ec6f8d"},
 ]
 jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.1.2-py2.py3-none-any.whl", hash = "sha256:abfb880fd1561987efaefcb2d2ac75145d2a5d0139b1876d5be806e32f630008"},
