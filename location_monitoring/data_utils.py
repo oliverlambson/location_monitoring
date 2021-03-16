@@ -6,11 +6,11 @@ import pandas as pd
 import requests
 from decouple import config
 
-WORKSPACE_ID = config("WORKSPACE_ID")
-USER_ID = config("USER_ID")
-TOKEN_VALUE = config("TOKEN_VALUE")
-API_KEY = config("API_KEY")
-API_SECRET = config("API_SECRET")
+WORKSPACE_ID = config("ITEMIT_WORKSPACE_ID", default="")
+USER_ID = config("ITEMIT_USER_ID", default="")
+TOKEN_VALUE = config("ITEMIT_TOKEN_VALUE", default="")
+API_KEY = config("ITEMIT_API_KEY", default="")
+API_SECRET = config("ITEMIT_API_SECRET", default="")
 
 HEADERS = {
     "workspaceId": WORKSPACE_ID,
