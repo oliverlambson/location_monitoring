@@ -1,0 +1,13 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/itemit-box-tracking/github.com/oliverlambson/location_monitoring', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/itemit-box-tracking/github.com/oliverlambson/location_monitoring']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'itemit-box-tracking-run', '--image', 'gcr.io/itemit-box-tracking/github.com/oliverlambson/location_monitoring', '--region', 'us-central1', '--platform', 'managed']
+images:
+- gcr.io/itemit-box-tracking/github.com/oliverlambson/location_monitoring
