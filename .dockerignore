@@ -3,6 +3,7 @@ Dockerfile
 .DS_Store
 .vscode
 .env
+config.py
 
 .ipynb_checkpoints
 
@@ -14,8 +15,3 @@ __pycache__/
 
 ~$*
 __bak__*
-
-*.csv
-*.xlsx
-
-config.py
