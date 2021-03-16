@@ -1,8 +1,10 @@
+from datetime import datetime
+
 import streamlit as st
 
 from location_monitoring.data_utils import (
-    fetch_days_list,
     fetch_boxes_list,
+    fetch_days_list,
     fetch_misplaced_boxes,
 )
 
@@ -31,7 +33,18 @@ st.write(
 """
 )
 
-day = st.sidebar.selectbox("Day", days)
+day = st.sidebar.selectbox("Current Schedule Day:", days)
 
-df = get_misplaced_boxes(day=day)
+last_updated = datetime.now().strftime("%I:%M%p on %d %b '%y")
+
+clear_cache = st.sidebar.button("Reload ItemIT data")
+st.sidebar.write(f"""__Last updated:__ {last_updated}""")
+
+
+with st.spinner("Loading data from ItemIT..."):
+    if clear_cache:
+        df = get_misplaced_boxes(day=day, clear_cache=True)
+    else:
+        df = get_misplaced_boxes(day=day)
+
 st.table(df)
