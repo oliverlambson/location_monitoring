@@ -4,14 +4,13 @@ from typing import List
 
 import pandas as pd
 import requests
+from decouple import config
 
-import config
-
-WORKSPACE_ID = config.WORKSPACE_ID
-USER_ID = config.USER_ID
-TOKEN_VALUE = config.TOKEN_VALUE
-API_KEY = config.API_KEY
-API_SECRET = config.API_SECRET
+WORKSPACE_ID = config("WORKSPACE_ID")
+USER_ID = config("USER_ID")
+TOKEN_VALUE = config("TOKEN_VALUE")
+API_KEY = config("API_KEY")
+API_SECRET = config("API_SECRET")
 
 HEADERS = {
     "workspaceId": WORKSPACE_ID,
