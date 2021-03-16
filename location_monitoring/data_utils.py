@@ -108,6 +108,7 @@ def fetch_location_list():
     url = "https://server.itemit.com/collections/itemit/v2.0/locations/hierarchy"
     payload = {}
     response = requests.request("GET", url, headers=HEADERS, data=payload)
+    response.raise_for_status()
     locations = response.json()
     location_list = []
     for location in locations:
@@ -191,6 +192,7 @@ def fetch_num_boxes():
     }
 
     response = requests.request("POST", url, headers=HEADERS, data=json.dumps(payload))
+    response.raise_for_status()
     size = response.json()
     return size
 
@@ -207,6 +209,7 @@ def fetch_box_data():
         "sorts": sorts,
     }
     response = requests.request("POST", url, headers=HEADERS, data=json.dumps(payload))
+    response.raise_for_status()
     items = response.json()
 
     data = {
