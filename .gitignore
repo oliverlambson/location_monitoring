@@ -10,4 +10,6 @@ __bak__*
 *.csv
 *.xlsx
 
+!UMS_Courier_Schedules.xlsx
+
 config.py
