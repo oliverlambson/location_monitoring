@@ -12,5 +12,6 @@ RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 
 EXPOSE 8080
-ENTRYPOINT ["streamlit","run"]
-CMD ["index.py"]
+CMD python create_secrets_env.py && streamlit run index.py
+# ENTRYPOINT ["streamlit","run"]
+# CMD ["index.py"]
