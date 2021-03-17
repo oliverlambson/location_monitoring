@@ -12,6 +12,8 @@ RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 
 EXPOSE 8080
-CMD python create_secrets_env.py && streamlit run index.py
+CMD python create_secrets_env.py \
+    && find /usr/local/lib/python3.9/site-packages/streamlit -type f \( -iname \*.py -o -iname \*.js \) -print0 | xargs -0 sed -i 's/healthz/health-check/g' \
+    && streamlit run index.py
 # ENTRYPOINT ["streamlit","run"]
 # CMD ["index.py"]
