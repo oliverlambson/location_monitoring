@@ -27,6 +27,7 @@ if __name__ == "__main__":
         "ITEMIT_TOKEN_VALUE",
         "ITEMIT_USER_ID",
         "ITEMIT_WORKSPACE_ID",
+        "MAPBOX_TOKEN",
     ]
     with open(".env", "w", encoding="utf-8") as f:
         for secret_id in secret_ids:

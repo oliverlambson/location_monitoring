@@ -12,6 +12,7 @@ openpyxl = "^3.0.7"
 streamlit = "^0.78.0"
 python-decouple = "^3.4"
 google-cloud-secret-manager = "^2.3.0"
+pydeck = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.0.10"

@@ -111,12 +111,33 @@ def fetch_location_list():
     response.raise_for_status()
     locations = response.json()
     location_list = []
+
+    location_data = {"name": [], "lat": [], "lng": []}
+
     for location in locations:
-        location_list.append(location["location"]["name"])
+        location_data["name"].append(location["location"]["name"])
+        try:
+            lat = location["location"]["lastSeen"]["coordinates"]["latitude"]
+            lng = location["location"]["lastSeen"]["coordinates"]["longitude"]
+        except TypeError:
+            lat = None
+            lng = None
+        location_data["lat"].append(lat)
+        location_data["lng"].append(lng)
         if location["nodes"]:
             for node in location["nodes"]:
-                location_list.append(node["location"]["name"])
-    return location_list
+                location_data["name"].append(node["location"]["name"])
+                try:
+                    lat = node["location"]["lastSeen"]["coordinates"]["latitude"]
+                    lng = node["location"]["lastSeen"]["coordinates"]["longitude"]
+                except TypeError:
+                    lat = None
+                    lng = None
+                location_data["lat"].append(lat)
+                location_data["lng"].append(lng)
+    df = pd.DataFrame(location_data)
+    df = _add_icon_data_col(df)
+    return df
 
 
 def fetch_group_schedule():
@@ -317,3 +338,17 @@ def get_location_comparison(day: str, clear_cache=False):
 def fetch_misplaced_boxes(day: str, clear_cache=False):
     df = get_location_comparison(day, clear_cache=clear_cache)
     return df[~df["location_is_correct"]].drop(columns="location_is_correct")
+
+
+def _add_icon_data_col(df: pd.DataFrame) -> pd.DataFrame:
+    ICON_URL = "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
+    icon_data = {
+        "url": ICON_URL,
+        "width": 512,
+        "height": 512,
+        "anchorY": 512,
+    }
+
+    df["icon_data"] = None
+    df["icon_data"] = df["icon_data"].apply(lambda x: icon_data)
+    return df
