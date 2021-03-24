@@ -1,6 +1,6 @@
 # Cyclical delivery location tracking
 
-Used to track the location of Covid test kits for the University of Cambridge Covid Student Testing Programme.
+Used to track the location of Covid test kits for the a UK University's Covid Student Testing Programme.
 
 ## Functionality overview
 
