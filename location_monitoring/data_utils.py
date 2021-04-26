@@ -65,6 +65,7 @@ loc_map = {
     "Newnham Pod": "DO",
     "Wychfield Pod": "DO",
     "Emmanuel Main Plodge": "Colleges",
+    "Excalibur Lab": "EXC",
     "Fitzwilliam College": "Colleges",
     "Girton College": "Colleges",
     "Gonville & Caius College": "Colleges",
