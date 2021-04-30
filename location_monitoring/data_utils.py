@@ -106,6 +106,10 @@ loc_map = {
 
 
 def fetch_location_list():
+    """
+    Returns dataframe of ItemIT locations, along with their latitudes and longitudes
+    (TODO: need to check)
+    """
     url = "https://server.itemit.com/collections/itemit/v2.0/locations/hierarchy"
     payload = {}
     response = requests.request("GET", url, headers=HEADERS, data=payload)
@@ -142,12 +146,20 @@ def fetch_location_list():
 
 
 def fetch_group_schedule():
+    """
+    Returns dataframe of box group shedules
+    (TODO: need to check)
+    """
     return pd.read_excel(
         "UMS_Courier_Schedules.xlsx", sheet_name="Group_Schedule", index_col="Group"
     )
 
 
 def fetch_box_groups():
+    """
+    Returns dataframe of all boxes, their groups, and rota assignment
+    (TODO: need to check)
+    """
     df_boxA = pd.read_excel("UMS_Courier_Schedules.xlsx", sheet_name="Box_Group_Lookup")
     df_boxB = df_boxA.copy()
 
@@ -169,25 +181,34 @@ def fetch_box_groups():
 
 
 def fetch_boxes_list():
+    """
+    Returns list of all boxes
+    (TODO: need to check)
+    """
     return fetch_box_groups().index.to_list()
 
 
 def fetch_days_list():
+    """
+    Returns list of all schedule days
+    (TODO: need to check)
+    """
     return fetch_group_schedule().columns.to_list()
 
 
 def get_expected_location(day: str) -> pd.DataFrame:
     """
-    Gets expected location of boxes at the end of day
+    Gets expected location of all boxes at the end of the specified day
 
     Params
     ------
     day: str
-        - day
+        - day of the schedule we want locations for
 
     Returns
     -------
     pd.DataFrame
+        - dataframe of all boxes, their expected locations, and additional info columns.
 
     """
     boxes = fetch_boxes_list()
@@ -205,6 +226,11 @@ def get_expected_location(day: str) -> pd.DataFrame:
 
 
 def fetch_num_boxes():
+    """
+    Returns the total number of boxes stored in ItemIT
+
+    (used for the "size" variable when making an API call so that all boxes are returned in one "page")
+    """
     url = "https://server.itemit.com/items/itemit/v4/count"
 
     payload = {
@@ -221,6 +247,10 @@ def fetch_num_boxes():
 
 @lru_cache(maxsize=1)
 def fetch_box_data():
+    """
+    Returns a dataframe of all box data available from ItemIT API
+    """
+    ### Call ItemIT API ###
     url = "https://server.itemit.com/items/itemit/v7/profiles/_search"
     sorts = [{"sort": "ITEM", "by": {"name": "ASC"}}]
     payload = {
@@ -233,7 +263,9 @@ def fetch_box_data():
     response = requests.request("POST", url, headers=HEADERS, data=json.dumps(payload))
     response.raise_for_status()
     items = response.json()
+    ### END Call ItemIT API ###
 
+    ### Process raw API data into a dataframe ###
     data = {
         "box": [],
         "collection": [],
@@ -297,11 +329,15 @@ def fetch_box_data():
 
     df["date"] = df["last_seen_dt"].dt.date
     df["time"] = df["last_seen_dt"].dt.strftime("%H:%M")
+    ### END Process raw API data into a dataframe ###
 
     return df
 
 
 def get_location_comparison(day: str, clear_cache=False):
+    """
+    Returns a dataframe of all boxes, their locations (expected & actual), whether the location is correct, and extra info columns.
+    """
     boxes = fetch_boxes_list()
 
     if clear_cache:
@@ -337,11 +373,17 @@ def get_location_comparison(day: str, clear_cache=False):
 
 
 def fetch_misplaced_boxes(day: str, clear_cache=False):
+    """
+    Returns a dataframe of all boxes whose location is not correct (i.e. not where they are expected to be)
+    """
     df = get_location_comparison(day, clear_cache=clear_cache)
     return df[~df["location_is_correct"]].drop(columns="location_is_correct")
 
 
 def _add_icon_data_col(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a column to dataframe for Mapbox so that the locations will appear on the map with a pin icon
+    """
     ICON_URL = "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png"
     icon_data = {
         "url": ICON_URL,
